@@ -33,19 +33,19 @@ package com.arpaul.gpslibrary.parseDirection;
 import android.graphics.Color;
 import android.os.AsyncTask;
 
+import com.arpaul.gpslibrary.parseDirection.model.GDColor;
+import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
+import com.arpaul.gpslibrary.parseDirection.model.GDPath;
+import com.arpaul.gpslibrary.parseDirection.model.GDPoint;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
+import com.arpaul.gpslibrary.parseDirection.util.GDirectionData;
+import com.arpaul.gpslibrary.parseDirection.util.GDirectionMapsOptions;
+import com.arpaul.gpslibrary.parseDirection.util.Util;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.param.gpsutilities.parseDirection.model.GDColor;
-import com.param.gpsutilities.parseDirection.model.GDLegs;
-import com.param.gpsutilities.parseDirection.model.GDPath;
-import com.param.gpsutilities.parseDirection.model.GDPoint;
-import com.param.gpsutilities.parseDirection.model.GDirection;
-import com.param.gpsutilities.parseDirection.util.GDirectionData;
-import com.param.gpsutilities.parseDirection.util.GDirectionMapsOptions;
-import com.param.gpsutilities.parseDirection.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;

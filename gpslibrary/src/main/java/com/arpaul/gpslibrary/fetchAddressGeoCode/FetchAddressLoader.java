@@ -1,19 +1,21 @@
 package com.arpaul.gpslibrary.fetchAddressGeoCode;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.support.v4.content.AsyncTaskLoader;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.arpaul.gpslibrary.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.arpaul.gpslibrary.R;
+import com.arpaul.utilitieslib.LogUtils;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Aritra on 21-06-2016.

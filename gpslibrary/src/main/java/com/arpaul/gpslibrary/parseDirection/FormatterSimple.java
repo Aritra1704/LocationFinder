@@ -2,11 +2,11 @@ package com.arpaul.gpslibrary.parseDirection;
 
 import android.text.Html;
 
-import com.example.libraryutilities.StringUtils;
+import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
+import com.arpaul.gpslibrary.parseDirection.model.GDPath;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
+import com.arpaul.utilitieslib.StringUtils;
 import com.google.android.gms.maps.model.Marker;
-import com.param.gpsutilities.parseDirection.model.GDLegs;
-import com.param.gpsutilities.parseDirection.model.GDPath;
-import com.param.gpsutilities.parseDirection.model.GDirection;
 
 /**
  * Created by Aritra on 5/19/2016.

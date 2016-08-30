@@ -29,6 +29,8 @@
  */
 package com.arpaul.gpslibrary.parseDirection.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author Mathias Seguy (Android2EE)
  * @goals

@@ -7,6 +7,7 @@ import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
 import com.arpaul.gpslibrary.parseDirection.model.GDPath;
 import com.arpaul.gpslibrary.parseDirection.model.GDPoint;
 import com.arpaul.gpslibrary.parseDirection.model.GDirection;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;

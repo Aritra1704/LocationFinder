@@ -1,9 +1,9 @@
 package com.arpaul.gpslibrary.parseDirection;
 
+import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
+import com.arpaul.gpslibrary.parseDirection.model.GDPath;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
 import com.google.android.gms.maps.model.Marker;
-import com.param.gpsutilities.parseDirection.model.GDLegs;
-import com.param.gpsutilities.parseDirection.model.GDPath;
-import com.param.gpsutilities.parseDirection.model.GDirection;
 
 /**
  * @author florian
