@@ -1,7 +1,7 @@
-package com.param.gpsutilities.parseDirection.util;
+package com.arpaul.gpslibrary.parseDirection.util;
 
-import com.param.gpsutilities.parseDirection.model.GDLegs;
-import com.param.gpsutilities.parseDirection.model.GDirection;
+import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
 
 import java.util.Collections;
 import java.util.Comparator;

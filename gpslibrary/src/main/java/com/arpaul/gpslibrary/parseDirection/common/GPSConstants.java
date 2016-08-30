@@ -1,4 +1,4 @@
-package com.param.gpsutilities.parseDirection.common;
+package com.arpaul.gpslibrary.parseDirection.common;
 
 import java.util.ArrayList;
 

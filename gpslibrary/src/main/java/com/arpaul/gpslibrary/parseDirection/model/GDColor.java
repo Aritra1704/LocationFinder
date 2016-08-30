@@ -1,4 +1,4 @@
-package com.param.gpsutilities.parseDirection.model;
+package com.arpaul.gpslibrary.parseDirection.model;
 
 
 /**

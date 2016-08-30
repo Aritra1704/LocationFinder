@@ -27,7 +27,7 @@
  *  <em>http://mathias-seguy.developpez.com/</em></br> </br>
  * *****************************************************************************************************************</br>
  */
-package com.param.gpsutilities.parseDirection.model;
+package com.arpaul.gpslibrary.parseDirection.model;
 
 import com.google.android.gms.maps.model.LatLng;
 

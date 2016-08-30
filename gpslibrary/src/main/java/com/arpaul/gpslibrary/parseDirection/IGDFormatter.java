@@ -1,4 +1,4 @@
-package com.param.gpsutilities.parseDirection;
+package com.arpaul.gpslibrary.parseDirection;
 
 import com.google.android.gms.maps.model.Marker;
 import com.param.gpsutilities.parseDirection.model.GDLegs;

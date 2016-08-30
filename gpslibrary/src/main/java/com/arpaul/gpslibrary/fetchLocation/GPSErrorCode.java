@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchLocation;
+package com.arpaul.gpslibrary.fetchLocation;
 
 public enum GPSErrorCode 
 {

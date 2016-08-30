@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchLocation;
+package com.arpaul.gpslibrary.fetchLocation;
 
 import android.annotation.SuppressLint;
 import android.app.Service;

@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchLocation;
+package com.arpaul.gpslibrary.fetchLocation;
 
 import android.os.Environment;
 import android.util.Log;

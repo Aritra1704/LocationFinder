@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchAddressGeoCode;
+package com.arpaul.gpslibrary.fetchAddressGeoCode;
 
 import android.content.Context;
 import android.location.Address;
@@ -7,7 +7,7 @@ import android.location.Location;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.param.gpsutilities.R;
+import com.arpaul.gpslibrary.R;
 
 import java.io.IOException;
 import java.util.List;

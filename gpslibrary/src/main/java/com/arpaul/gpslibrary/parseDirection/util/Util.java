@@ -1,11 +1,10 @@
-package com.param.gpsutilities.parseDirection.util;
+package com.arpaul.gpslibrary.parseDirection.util;
 
 import android.util.Log;
 
-import com.example.libraryutilities.IOUtils;
-import com.param.gpsutilities.fetchLocation.GPSLogutils;
-import com.param.gpsutilities.parseDirection.model.GDirection;
-import com.param.gpsutilities.parseDirection.parser.DirectionsJSONParser;
+import com.arpaul.gpslibrary.fetchLocation.GPSLogutils;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
+import com.arpaul.gpslibrary.parseDirection.parser.DirectionsJSONParser;
 
 import org.json.JSONObject;
 

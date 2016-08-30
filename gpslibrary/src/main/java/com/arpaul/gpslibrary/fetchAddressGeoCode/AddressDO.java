@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchAddressGeoCode;
+package com.arpaul.gpslibrary.fetchAddressGeoCode;
 
 import android.location.Location;
 

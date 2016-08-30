@@ -1,8 +1,8 @@
-package com.param.gpsutilities.parseDirection.util;
+package com.arpaul.gpslibrary.parseDirection.util;
 
+import com.arpaul.gpslibrary.parseDirection.IGDFormatter;
+import com.arpaul.gpslibrary.parseDirection.model.GDColor;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.param.gpsutilities.parseDirection.IGDFormatter;
-import com.param.gpsutilities.parseDirection.model.GDColor;
 
 import java.util.ArrayList;
 

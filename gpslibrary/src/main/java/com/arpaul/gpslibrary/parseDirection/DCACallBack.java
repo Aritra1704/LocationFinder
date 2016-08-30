@@ -27,9 +27,9 @@
  *  <em>http://mathias-seguy.developpez.com/</em></br> </br>
  * *****************************************************************************************************************</br>
  */
-package com.param.gpsutilities.parseDirection;
+package com.arpaul.gpslibrary.parseDirection;
 
-import com.param.gpsutilities.parseDirection.model.GDirection;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
 
 import java.util.List;
 

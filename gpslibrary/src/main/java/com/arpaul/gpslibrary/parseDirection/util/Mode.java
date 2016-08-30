@@ -1,4 +1,4 @@
-package com.param.gpsutilities.parseDirection.util;
+package com.arpaul.gpslibrary.parseDirection.util;
 
 /**
  * @author florian

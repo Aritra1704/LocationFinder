@@ -1,4 +1,4 @@
-package com.param.gpsutilities.fetchAddressGeoCode;
+package com.arpaul.gpslibrary.fetchAddressGeoCode;
 
 /**
  * Created by Aritra on 21-06-2016.

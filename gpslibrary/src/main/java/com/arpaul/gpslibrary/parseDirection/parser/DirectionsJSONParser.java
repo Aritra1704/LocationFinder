@@ -1,13 +1,12 @@
-package com.param.gpsutilities.parseDirection.parser;
+package com.arpaul.gpslibrary.parseDirection.parser;
 
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.param.gpsutilities.fetchLocation.GPSLogutils;
-import com.param.gpsutilities.parseDirection.model.GDLegs;
-import com.param.gpsutilities.parseDirection.model.GDPath;
-import com.param.gpsutilities.parseDirection.model.GDPoint;
-import com.param.gpsutilities.parseDirection.model.GDirection;
+import com.arpaul.gpslibrary.fetchLocation.GPSLogutils;
+import com.arpaul.gpslibrary.parseDirection.model.GDLegs;
+import com.arpaul.gpslibrary.parseDirection.model.GDPath;
+import com.arpaul.gpslibrary.parseDirection.model.GDPoint;
+import com.arpaul.gpslibrary.parseDirection.model.GDirection;
 
 import org.json.JSONArray;
 import org.json.JSONException;
