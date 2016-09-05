@@ -5,7 +5,6 @@
     <string name="cancel">Cancel</string>
     <string name="discard">Discard</string>
     <string name="alert">Alert</string>
-    <string name="success">Success</string>
     <string name="failure">Failure</string>
     <string name="gpssettings">GPS Settings</string>
     <string name="gps_not_enabled">GPS is not enabled.So please enable GPS for better Location.</string>

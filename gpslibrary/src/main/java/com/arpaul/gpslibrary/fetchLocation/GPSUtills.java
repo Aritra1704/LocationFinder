@@ -401,7 +401,8 @@ public class GPSUtills
 		 currentLatLng = gpsTrackerService.getLatLng();
 		 if(currentLatLng.latitude == 0.0 && currentLatLng.longitude == 0.0)
 		 {
-			 gpsCallback.gotGpsValidationResponse(currentLatLng, GPSErrorCode.EC_UNABLE_TO_FIND_LOCATION);
+			 new GPSFusedLocationApi(context, gpsCallback);
+//			 gpsCallback.gotGpsValidationResponse(currentLatLng, GPSErrorCode.EC_UNABLE_TO_FIND_LOCATION);
 			 GPSLogutils.createLogDataForLib("getCurrentLatLng", "lattitude : "+currentLatLng.latitude+", "+currentLatLng.longitude, "EC_UNABLE_TO_FIND_LOCATION");
 		 }
 		 else

@@ -1,56 +1,112 @@
 package com.arpaul.locationfinder;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.arpaul.customalertlibrary.popups.statingDialog.CustomPopup;
 import com.arpaul.customalertlibrary.popups.statingDialog.CustomPopupType;
-import com.arpaul.customalertlibrary.popups.statingDialog.PopupListener;
 import com.arpaul.gpslibrary.fetchLocation.GPSCallback;
 import com.arpaul.gpslibrary.fetchLocation.GPSErrorCode;
 import com.arpaul.gpslibrary.fetchLocation.GPSUtills;
 import com.arpaul.utilitieslib.LogUtils;
-import com.arpaul.utilitieslib.NetworkUtility;
 import com.arpaul.utilitieslib.PermissionUtils;
-import com.arpaul.utilitieslib.StringUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-public class MainActivity extends AppCompatActivity implements GPSCallback, PopupListener {
+public class MainActivity extends BaseActivity implements GPSCallback/*,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener*/ {
+
+    private View llSunShineActivity;
+    private TextView tvLatitude, tvLongitude;
+    private final String LOG_TAG ="LocationFinderSample";
 
     private GPSUtills gpsUtills;
-    private CustomPopup cPopup;
     private boolean ispermissionGranted = false;
     private boolean isGpsEnabled;
     private LatLng currentLatLng = null;
 
-    private TextView tvLatitude, tvLongitude;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void initialize(Bundle savedInstanceState) {
+        llSunShineActivity = baseInflater.inflate(R.layout.activity_main,null);
+        llBody.addView(llSunShineActivity, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        tvLatitude = (TextView) findViewById(R.id.tvLatitude);
-        tvLongitude = (TextView) findViewById(R.id.tvLongitude);
+        initialiseControls();
 
-        gpsUtills = GPSUtills.getInstance(MainActivity.this);
+        bindControls();
+    }
+
+    private void bindControls(){
+        gpsUtills = GPSUtills.getInstance(this);
         gpsUtills.setLogEnable(true);
         gpsUtills.setPackegeName(getPackageName());
-        gpsUtills.setListner(MainActivity.this);
+        gpsUtills.setListner(this);
 
-        if(Build.VERSION.SDK_INT >= 23 && new PermissionUtils().checkPermission(MainActivity.this) != 0){
-            new PermissionUtils().verifyLocation(MainActivity.this,new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION});
+        if(new PermissionUtils().checkPermission(this, new String[]{
+                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) != 0){
+            new PermissionUtils().verifyLocation(this,new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION});
         }
         else{
             createGPSUtils();
         }
+
+        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();*/
     }
+
+    /*@Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1 * 1000); // Update location every second
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+               LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            }
+        } else
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        LogUtils.infoLog(LOG_TAG, "GoogleApiClient connection has been suspend");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        LogUtils.infoLog(LOG_TAG, "GoogleApiClient connection has failed");
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LogUtils.infoLog(LOG_TAG, location.toString());
+        //txtOutput.setText(location.toString());
+
+//        tvLatitude.setText("" + location.getLatitude());
+//        tvLongitude.setText("" + location.getLongitude());
+
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -83,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements GPSCallback, Popu
         }
         else if(code == GPSErrorCode.EC_LOCATION_FOUND) {
             currentLatLng = (LatLng) response;
-            LogUtils.debug("GPSTrack", "Currrent latLng :"+currentLatLng.latitude+" \n"+currentLatLng.longitude);
+            LogUtils.debugLog("GPSTrack", "Currrent latLng :"+currentLatLng.latitude+" \n"+currentLatLng.longitude);
 
             tvLatitude.setText("" + currentLatLng.latitude);
             tvLongitude.setText("" + currentLatLng.longitude);
@@ -117,155 +173,30 @@ public class MainActivity extends AppCompatActivity implements GPSCallback, Popu
 
             getCurrentLocation();
         }
+
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.connect();
+
     }
 
     @Override
     public void onStop() {
-        super.onStop();
+
         if(gpsUtills != null)
             gpsUtills.disConnectGoogleApiClient();
+
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
+
+        super.onStop();
     }
 
     private void createGPSUtils(){
         gpsUtills.isGpsProviderEnabled();
     }
 
-    /**
-     * Shows Dialog with user defined buttons.
-     * @param title
-     * @param message
-     * @param okButton
-     * @param noButton
-     * @param from
-     * @param isCancelable
-     */
-    public void showCustomDialog(final String title, final String message, final String okButton, final String noButton, final String from, boolean isCancelable){
-        runOnUiThread(new RunShowDialog(title,message,okButton,noButton,from, isCancelable));
-    }
-
-    public void showCustomDialog(final String title, final String message, final String okButton, final String noButton, final String from, CustomPopupType dislogType, boolean isCancelable){
-        runOnUiThread(new RunShowDialog(title,message,okButton,noButton,from, dislogType, isCancelable));
-    }
-
-    public void hideCustomDialog() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (cPopup != null && cPopup.isShowing())
-                    cPopup.dismiss();
-            }
-        });
-    }
-
-    class RunShowDialog implements Runnable {
-        private String strTitle;// FarmName of the materialDialog
-        private String strMessage;// Message to be shown in materialDialog
-        private String firstBtnName;
-        private String secondBtnName;
-        private String from;
-        private String params;
-        private boolean isCancelable=false;
-        private CustomPopupType dislogType = CustomPopupType.DIALOG_NORMAL;
-        private int isNormal = 0;
-        public RunShowDialog(String strTitle,String strMessage, String firstBtnName, String secondBtnName,	String from, boolean isCancelable)
-        {
-            this.strTitle 		= strTitle;
-            this.strMessage 	= strMessage;
-            this.firstBtnName 	= firstBtnName;
-            this.secondBtnName	= secondBtnName;
-            this.isCancelable 	= isCancelable;
-            if (from != null)
-                this.from = from;
-            else
-                this.from = "";
-
-            isNormal = 0;
-        }
-
-        public RunShowDialog(String strTitle,String strMessage, String firstBtnName, String secondBtnName,	String from, CustomPopupType dislogType, boolean isCancelable)
-        {
-            this.strTitle 		= strTitle;
-            this.strMessage 	= strMessage;
-            this.firstBtnName 	= firstBtnName;
-            this.secondBtnName	= secondBtnName;
-            this.dislogType     = dislogType;
-            this.isCancelable 	= isCancelable;
-            if (from != null)
-                this.from = from;
-            else
-                this.from = "";
-
-            isNormal = 1;
-        }
-
-        @Override
-        public void run() {
-            if(isNormal > 0)
-                showNotNormal();
-            else
-                showNormal();
-        }
-
-        private void showNotNormal(){
-            try{
-                if (cPopup != null && cPopup.isShowing())
-                    cPopup.dismiss();
-
-                cPopup = new CustomPopup(MainActivity.this, MainActivity.this,strTitle,strMessage,
-                        firstBtnName, secondBtnName, from, dislogType);
-
-//                cPopup.setTypeface(tfAdventProMedium,tfAdventProRegular);
-
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        cPopup.show();
-                    }
-                });
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-
-        private void showNormal(){
-            try{
-                if (cPopup != null && cPopup.isShowing())
-                    cPopup.dismiss();
-
-                cPopup = new CustomPopup(MainActivity.this, MainActivity.this,strTitle,strMessage,
-                        firstBtnName, secondBtnName, from, CustomPopupType.DIALOG_NORMAL);
-
-//                cPopup.setTypeface(tfAdventProMedium,tfAdventProRegular);
-
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        cPopup.show();
-                    }
-                });
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void OnButtonYesClick(String from) {
-        dialogYesClick(from);
-    }
-
-    @Override
-    public void OnButtonNoClick(String from) {
-        dialogNoClick(from);
-    }
-
-    public void dialogYesClick(String from) {
-
-    }
-
-    public void dialogNoClick(String from) {
-        if(from.equalsIgnoreCase("")){
-
-        }
+    private void initialiseControls(){
+        tvLatitude = (TextView) findViewById(R.id.tvLatitude);
+        tvLongitude = (TextView) findViewById(R.id.tvLongitude);
     }
 }
