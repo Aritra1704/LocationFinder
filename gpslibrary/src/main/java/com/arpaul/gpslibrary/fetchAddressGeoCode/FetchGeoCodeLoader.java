@@ -44,7 +44,7 @@ public class FetchGeoCodeLoader extends AsyncTaskLoader {
 
         try {
             listAddress = geocoder.getFromLocationName(address,5);
-            if (listAddress==null) {
+            if (listAddress==null || listAddress.size() <= 0) {
                 return null;
             }
             Address location=listAddress.get(0);
