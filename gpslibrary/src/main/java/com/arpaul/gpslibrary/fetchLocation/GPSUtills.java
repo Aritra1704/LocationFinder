@@ -30,6 +30,7 @@ public class GPSUtills
     
 	private List<Address> address;
 	private LatLng currentLatLng;
+	private GPSFusedLocationApi mGPSFusedLocationApi;
 	
     	
 	public synchronized static GPSUtills getInstance(Context context) 
@@ -389,6 +390,8 @@ public class GPSUtills
 	 public void stopLocationUpdates()
 	 {
 		 gpsTrackerService.stopLocationUpdates();
+		 if(mGPSFusedLocationApi != null)
+			 mGPSFusedLocationApi.disconnectApiClient();
 	 }
 	 
 	 /*
@@ -399,9 +402,9 @@ public class GPSUtills
 	 public void getCurrentLatLng()
 	 {
 		 currentLatLng = gpsTrackerService.getLatLng();
-		 if(currentLatLng.latitude == 0.0 && currentLatLng.longitude == 0.0)
+		 if(currentLatLng == null || (currentLatLng.latitude == 0.0 && currentLatLng.longitude == 0.0))
 		 {
-			 new GPSFusedLocationApi(context, gpsCallback);
+			 mGPSFusedLocationApi = new GPSFusedLocationApi(context, gpsCallback);
 //			 gpsCallback.gotGpsValidationResponse(currentLatLng, GPSErrorCode.EC_UNABLE_TO_FIND_LOCATION);
 			 GPSLogutils.createLogDataForLib("getCurrentLatLng", "lattitude : "+currentLatLng.latitude+", "+currentLatLng.longitude, "EC_UNABLE_TO_FIND_LOCATION");
 		 }

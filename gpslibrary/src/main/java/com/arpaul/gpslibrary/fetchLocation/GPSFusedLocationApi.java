@@ -82,7 +82,6 @@ public class GPSFusedLocationApi implements
 
         if(gpsCallback != null){
             if(currentLatLng.latitude == 0.0 && currentLatLng.longitude == 0.0){
-//            new GPSFusedLocationApi(context, gpsCallback);
                 gpsCallback.gotGpsValidationResponse(currentLatLng, GPSErrorCode.EC_UNABLE_TO_FIND_LOCATION);
                 GPSLogutils.createLogDataForLib("getCurrentLatLng", "lattitude : "+currentLatLng.latitude+", "+currentLatLng.longitude, "EC_UNABLE_TO_FIND_LOCATION");
             } else {
@@ -91,6 +90,20 @@ public class GPSFusedLocationApi implements
 
                 mGoogleApiClient.disconnect();
             }
+        }
+    }
+
+    public void connectApiClient() {
+        if(mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        } else {
+            bindControls();
+        }
+    }
+
+    public void disconnectApiClient() {
+        if(mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
         }
     }
 }
