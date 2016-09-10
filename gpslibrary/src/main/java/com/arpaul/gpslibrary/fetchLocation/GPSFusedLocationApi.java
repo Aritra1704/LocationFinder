@@ -32,11 +32,35 @@ public class GPSFusedLocationApi implements
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private int INTERVAL = 1;
+    private int PRIORITY = 0;
 
+    /**
+     *
+     * @param context
+     * @param gpsCallback
+     */
     public GPSFusedLocationApi(Context context, GPSCallback gpsCallback){
         this.context = context;
         this.gpsCallback = gpsCallback;
 
+        PRIORITY = LocationRequest.PRIORITY_HIGH_ACCURACY;
+        bindControls();
+    }
+
+    /**
+     *
+     * @param context
+     * @param gpsCallback
+     * @param interval
+     * @param priority
+     */
+    public GPSFusedLocationApi(Context context, GPSCallback gpsCallback, int interval, int priority){
+        this.context = context;
+        this.gpsCallback = gpsCallback;
+
+        INTERVAL = interval;
+        PRIORITY = priority;
         bindControls();
     }
 
@@ -53,8 +77,8 @@ public class GPSFusedLocationApi implements
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(1 * 1000); // Update location every second
+        mLocationRequest.setPriority(PRIORITY);
+        mLocationRequest.setInterval(INTERVAL * 1000); // Update location every second
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){

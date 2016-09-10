@@ -1,4 +1,4 @@
-package com.arpaul.locationfinder;
+package com.arpaul.locationfinder.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.arpaul.customalertlibrary.dialogs.CustomDialog;
 import com.arpaul.customalertlibrary.popups.statingDialog.CustomPopupType;
 import com.arpaul.customalertlibrary.popups.statingDialog.PopupListener;
+import com.arpaul.locationfinder.R;
 import com.arpaul.utilitieslib.UnCaughtException;
 
 /**

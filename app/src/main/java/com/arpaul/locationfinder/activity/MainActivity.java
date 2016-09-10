@@ -1,12 +1,6 @@
-package com.arpaul.locationfinder;
+package com.arpaul.locationfinder.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,13 +10,11 @@ import com.arpaul.customalertlibrary.popups.statingDialog.CustomPopupType;
 import com.arpaul.gpslibrary.fetchLocation.GPSCallback;
 import com.arpaul.gpslibrary.fetchLocation.GPSErrorCode;
 import com.arpaul.gpslibrary.fetchLocation.GPSUtills;
+import com.arpaul.locationfinder.R;
 import com.arpaul.utilitieslib.LogUtils;
 import com.arpaul.utilitieslib.PermissionUtils;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends BaseActivity implements GPSCallback/*,
@@ -196,7 +188,7 @@ public class MainActivity extends BaseActivity implements GPSCallback/*,
     }
 
     private void initialiseControls(){
-        tvLatitude = (TextView) findViewById(R.id.tvLatitude);
-        tvLongitude = (TextView) findViewById(R.id.tvLongitude);
+        tvLatitude = (TextView) llSunShineActivity.findViewById(R.id.tvLatitude);
+        tvLongitude = (TextView) llSunShineActivity.findViewById(R.id.tvLongitude);
     }
 }
