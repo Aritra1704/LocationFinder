@@ -1,9 +1,11 @@
 package com.arpaul.locationfinder.activity;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
@@ -11,17 +13,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arpaul.locationfinder.R;
 import com.arpaul.locationfinder.common.Constants;
+import com.arpaul.locationfinder.service.DetectedIntentService;
 import com.arpaul.utilitieslib.LogUtils;
 import com.arpaul.utilitieslib.PermissionUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.ActivityRecognitionApi;
 import com.google.android.gms.location.DetectedActivity;
@@ -34,7 +42,8 @@ import java.util.ArrayList;
  * Created by ARPaul on 10-09-2016.
  */
 public class RecognitionActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        ResultCallback<Status> {
 
     private View llRecognitionActivity;
     private TextView detectedActivities;
@@ -43,7 +52,7 @@ public class RecognitionActivity extends BaseActivity implements GoogleApiClient
     private final String LOG_TAG ="LocationFinderSample";
 
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    protected ActivityDetectionBroadcastReceiver mBroadcastReceiver;
 
     @Override
     public void initialize(Bundle savedInstanceState) {
@@ -59,14 +68,14 @@ public class RecognitionActivity extends BaseActivity implements GoogleApiClient
         request_activity_updates_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                requestActivityUpdatesButtonHandler(view);
             }
         });
 
         remove_activity_updates_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                removeActivityUpdatesButtonHandler(view);
             }
         });
 
@@ -108,6 +117,20 @@ public class RecognitionActivity extends BaseActivity implements GoogleApiClient
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        mBroadcastReceiver = new ActivityDetectionBroadcastReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(Constants.BROADCAST_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(RecognitionActivity.this).unregisterReceiver(mBroadcastReceiver);
+        super.onPause();
+    }
+
+    @Override
     protected void onStop() {
         if(mGoogleApiClient != null && mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
@@ -117,32 +140,7 @@ public class RecognitionActivity extends BaseActivity implements GoogleApiClient
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
-        Location location = null;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
-                location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            }
-        } else
-            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-
-        if(location != null){
-//            tvLatitude.setText("" + location.getLatitude());
-//            tvLongitude.setText("" + location.getLongitude());
-        } else {
-//            mLocationRequest = LocationRequest.create();
-//            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//            mLocationRequest.setInterval(1 * 1000); // Update location every second
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
-//                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-//                }
-//            } else
-//                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
+        LogUtils.infoLog(LOG_TAG, "Connected to GoogleApiClient");
     }
 
     @Override
@@ -155,6 +153,49 @@ public class RecognitionActivity extends BaseActivity implements GoogleApiClient
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         LogUtils.infoLog(LOG_TAG, "GoogleApiClient connection has failed");
+    }
+
+    @Override
+    public void onResult(@NonNull Status status) {
+        if (status.isSuccess()) {
+            LogUtils.errorLog(LOG_TAG, "Successfully added activity detection.");
+
+        } else {
+            LogUtils.errorLog(LOG_TAG, "Error adding or removing activity detection: " + status.getStatusMessage());
+        }
+    }
+
+    public void requestActivityUpdatesButtonHandler(View view) {
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(
+                mGoogleApiClient,
+                Constants.DETECTION_INTERVAL_IN_MILLISECONDS,
+                getActivityDetectionPendingIntent()
+        ).setResultCallback(this);
+    }
+
+    public void removeActivityUpdatesButtonHandler(View view) {
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Remove all activity updates for the PendingIntent that was used to request activity
+        // updates.
+        ActivityRecognition.ActivityRecognitionApi.removeActivityUpdates(
+                mGoogleApiClient,
+                getActivityDetectionPendingIntent()
+        ).setResultCallback(this);
+    }
+
+    private PendingIntent getActivityDetectionPendingIntent() {
+        Intent intent = new Intent(this, DetectedIntentService.class);
+
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
+        // requestActivityUpdates() and removeActivityUpdates().
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     /**
