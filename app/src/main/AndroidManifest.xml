@@ -28,9 +28,14 @@
         </activity>
         <activity android:name=".activity.RecognitionActivity">
         </activity>
+        <activity android:name=".activity.GeoFenceActivity">
+        </activity>
 
         <service
             android:name=".service.DetectedIntentService"
+            android:exported="false" />
+        <service
+            android:name=".service.GeofenceTransitionsIntentService"
             android:exported="false" />
     </application>
 

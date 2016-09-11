@@ -28,7 +28,7 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
         LocationListener {
 
     private View llSecondActivity;
-    private TextView tvLatitude, tvLongitude;
+    private TextView tvLatitude, tvLongitude, tvAltitude;
 
     private final String LOG_TAG ="LocationFinderSample";
 
@@ -129,11 +129,13 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
 
         tvLatitude.setText("" + location.getLatitude());
         tvLongitude.setText("" + location.getLongitude());
+        tvAltitude.setText("" + location.getAltitude());
 
     }
 
     private void initialiseControls(){
         tvLatitude = (TextView) llSecondActivity.findViewById(R.id.tvLatitude);
         tvLongitude = (TextView) llSecondActivity.findViewById(R.id.tvLongitude);
+        tvAltitude = (TextView) llSecondActivity.findViewById(R.id.tvAltitude);
     }
 }
