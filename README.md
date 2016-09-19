@@ -17,7 +17,7 @@ In build.gradle (Project)
 And then in the other gradle file(may be your app gradle or your own module library gradle.)
 
 	 dependencies {
-	        compile 'com.github.Aritra1704:LocationFinder:1.0.5'
+	        compile 'com.github.Aritra1704:LocationFinder:1.0.6'
 	 }
 
 
