@@ -98,7 +98,7 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
         if(location != null){
             tvLatitude.setText("" + location.getLatitude());
             tvLongitude.setText("" + location.getLongitude());
-        } else {
+        }// else {
             mLocationRequest = LocationRequest.create();
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             mLocationRequest.setInterval(1 * 1000); // Update location every second
@@ -109,7 +109,7 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
                 }
             } else
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
+      //  }
     }
 
     @Override
