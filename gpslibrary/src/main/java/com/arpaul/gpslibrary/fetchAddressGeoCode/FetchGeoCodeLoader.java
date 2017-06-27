@@ -38,6 +38,10 @@ public class FetchGeoCodeLoader extends AsyncTaskLoader {
 
     @Override
     public AddressDO loadInBackground() {
+        return getGeoCode();
+    }
+
+    public AddressDO getGeoCode() {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
         List<Address> listAddress;

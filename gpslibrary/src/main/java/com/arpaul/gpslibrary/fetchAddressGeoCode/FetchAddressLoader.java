@@ -44,6 +44,10 @@ public class FetchAddressLoader extends AsyncTaskLoader {
 
     @Override
     public AddressDO loadInBackground() {
+        return getAddress();
+    }
+
+    public AddressDO getAddress() {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
         String errorMessage = "";

@@ -33,7 +33,10 @@ public class FetchDistanceLoader extends AsyncTaskLoader {
 
     @Override
     public List<AddressDO> loadInBackground() {
+        return getDistance();
+    }
 
+    public List<AddressDO> getDistance() {
         for(int i = 0; i < listAddressDO.size(); i++){
 
             AddressDO addressDO = listAddressDO.get(i);
