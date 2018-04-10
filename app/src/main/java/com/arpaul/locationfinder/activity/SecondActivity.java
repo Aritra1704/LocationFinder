@@ -48,7 +48,7 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
     private void bindControls(){
         if(new PermissionUtils().checkPermission(this, new String[]{
                 android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) != 0){
-            new PermissionUtils().verifyPermission(this,new String[]{
+            new PermissionUtils().requestPermission(this,new String[]{
                     android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION});
         }
         else{
@@ -94,7 +94,14 @@ public class SecondActivity extends BaseActivity implements GoogleApiClient.Conn
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        Location location = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+                location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            }
+        } else
+            location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
         if(location != null){
             tvLatitude.setText("" + location.getLatitude());
             tvLongitude.setText("" + location.getLongitude());

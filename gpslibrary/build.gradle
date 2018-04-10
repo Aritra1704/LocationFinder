@@ -4,14 +4,14 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.jitpack'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 3
-        versionName "1.5"
+        versionCode 4
+        versionName "1.6"
     }
     buildTypes {
         debug {
@@ -26,11 +26,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.google.android.gms:play-services:10.2.0'
-    compile 'com.github.Aritra1704:UtilitiesJitPackLib:1.18'
+    implementation 'com.android.support:appcompat-v7:26+'
+    implementation 'com.google.android.gms:play-services-location:11.6.2'
+    implementation 'com.google.android.gms:play-services-maps:11.6.2'
+    implementation 'com.github.Aritra1704:UtilitiesJitPackLib:1.24'
 }
 
 task sourcesJar(type: Jar) {

@@ -14,7 +14,7 @@ import com.arpaul.locationfinder.R;
 public class FirstActivity extends BaseActivity {
 
     private View llSecondActivity;
-    private Button btnFirst, btnSecond, btnDetection, btnGeofence;
+    private Button btnFirst, btnSecond, btnDetection, btnGeofence, btnAddressFinder;
 
     private final String LOG_TAG ="LocationFinderSample";
 
@@ -56,6 +56,13 @@ public class FirstActivity extends BaseActivity {
                 startActivity(new Intent(FirstActivity.this, GeoFenceActivity.class));
             }
         });
+
+        btnAddressFinder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FirstActivity.this, LocationSearchActivity.class));
+            }
+        });
     }
 
     private void initialiseControls(){
@@ -63,5 +70,6 @@ public class FirstActivity extends BaseActivity {
         btnSecond       = (Button) llSecondActivity.findViewById(R.id.btnSecond);
         btnDetection    = (Button) llSecondActivity.findViewById(R.id.btnDetection);
         btnGeofence    = (Button) llSecondActivity.findViewById(R.id.btnGeofence);
+        btnAddressFinder    = (Button) llSecondActivity.findViewById(R.id.btnAddressFinder);
     }
 }

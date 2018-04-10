@@ -1,10 +1,13 @@
 package com.arpaul.locationfinder.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.arpaul.customalertlibrary.dialogs.CustomDialog;
@@ -145,6 +148,24 @@ public abstract class BaseActivity extends AppCompatActivity implements PopupLis
         if(from.equalsIgnoreCase("")){
 
         }
+    }
+
+    public void hideKeyBoard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void showSettingsAlert()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showCustomDialog(getString(R.string.gpssettings),getString(R.string.gps_not_enabled),getString(R.string.settings),getString(R.string.cancel),getString(R.string.settings), CustomPopupType.DIALOG_ALERT,false);
+            }
+        });
     }
 
     private void initialiseBaseControls(){

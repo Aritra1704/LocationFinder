@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements GPSCallback/*,
 
         if(new PermissionUtils().checkPermission(this, new String[]{
                 android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}) != 0){
-            new PermissionUtils().verifyPermission(this,new String[]{
+            new PermissionUtils().requestPermission(this,new String[]{
                     android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION});
         }
         else{
