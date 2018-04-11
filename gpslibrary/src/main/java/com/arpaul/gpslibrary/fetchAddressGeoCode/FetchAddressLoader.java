@@ -90,9 +90,13 @@ public class FetchAddressLoader extends AsyncTaskLoader {
 
             // Fetch the address lines using getAddressLine,
             // join them, and send them to the thread.
-            for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                addressFragments.add(address.getAddressLine(i));
+            int i = 0;
+            while(address.getAddressLine(i) != null && !TextUtils.isEmpty(address.getAddressLine(i))) {
+                addressFragments.add(address.getAddressLine(i++));
             }
+//            for(int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+//                addressFragments.add(address.getAddressLine(i));
+//            }
             LogUtils.infoLog(TAG, context.getString(R.string.address_found));
 
             addressDO.code = AddressConstants.SUCCESS_RESULT;

@@ -121,7 +121,7 @@ public class LocationSearchActivity extends BaseActivity implements
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                startIntentService();
                 if(!TextUtils.isEmpty(edtAddress.getText().toString()))
                     saveLocation();
                 else
